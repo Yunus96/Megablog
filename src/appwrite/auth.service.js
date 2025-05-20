@@ -1,20 +1,26 @@
 import conf from "../conf/conf.js";
 import { Client, Account, ID } from "appwrite";
 
+
 export class AuthService {
     client = new Client()
     account;
 
+
+
     constructor(){
         
         this.client
-            .setEndpoint(conf.appWriteUrl)
-            .setProject(conf.appWriteProjectId);
+            .setEndpoint(import.meta.env.VITE_APPWRITE_URL)
+            .setProject(import.meta.env.VITE_APPWRITE_PROJECT_ID)
+            .setSession(conf.appWriteSession);
 
         this.account = new Account(this.client);
     }
+    
 
     async createAccount({email, password, name}){
+        console.log(this.account)
         try {
             const userAccount = await this.account.create( 
                 ID.unique(), email, password, name)
@@ -40,7 +46,8 @@ export class AuthService {
 
     async getCurrentUser(){
         try {
-            return await this.account.get()
+            console.log(this.account)
+           return await this.account.get()
         } catch (error) {
             throw error
         }

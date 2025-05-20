@@ -1,16 +1,19 @@
 import conf from "../conf/conf.js";
 import { Client, Databases, Storage, Query, ID } from "appwrite";
 
-console.log(typeof conf.appWriteUrl, typeof conf.appWriteProjectId);
+
 export class Service{
     client = new Client();
     databases;
     bucket;
 
+
     constructor(){
         this.client
             .setEndpoint(conf.appWriteUrl)
-            .setProject(conf.appWriteProjectId);
+            .setProject(conf.appWriteProjectId)
+            .setSession(conf.appWriteSession);
+
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client);
     }
@@ -86,6 +89,7 @@ export class Service{
             await this.databases.listDocuments(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
+                conf.appWriteSession,
                 queries,
                 100
             ) 

@@ -7,8 +7,10 @@ import {login, logout} from "../../store/authSlice";
 
 function Header() {
     const authStatus = useSelector((state)=> {
-        state.auth.status
+        state.auth?.status
+        //console.log(state.login.status)
     })
+
     const navigate = useNavigate()
     const navItems = [
         {
